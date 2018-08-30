@@ -103,6 +103,8 @@
 #if defined (LI_CAN_SLV_SYNC) || defined (LI_CAN_SLV_BOOT)
 uint8_t can_sync_handler_rx(uint16_t msg_obj, uint8_t dlc, uint16_t canid, uint8_t *data)
 {
+	printf("\ncan_sync_handler_rx called");
+
 	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
 	uint32_t rxi;
 #ifndef LI_CAN_SLV_BOOT

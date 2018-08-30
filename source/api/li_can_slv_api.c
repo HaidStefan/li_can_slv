@@ -30,6 +30,9 @@
 #include "li_can_slv_api.h"
 #include "io_can.h"
 #include "io_can_config.h"
+#ifdef LI_CAN_SLV_DEBUG
+#include "li_can_slv_debug.h"
+#endif // #ifdef LI_CAN_SLV_DEBUG
 
 /*--------------------------------------------------------------------------*/
 /* general definitions (private/not exported)                               */
@@ -100,6 +103,9 @@ lcsa_errorcode_t lcsa_init(lcsa_bdr_t baudrate)
 #ifndef LI_CAN_SLV_BOOT
 lcsa_errorcode_t lcsa_start(void)
 {
+#ifdef LI_CAN_SLV_DEBUG_S
+	LI_CAN_SLV_DEBUG_PRINT("\nlcsa_start called");
+#endif // #ifdef LI_CAN_SLV_DEBUG_S
 #ifdef LI_CAN_SLV_USE_UNKNOWN_MODULE
 	uint16_t module_nr;
 
@@ -136,6 +142,9 @@ lcsa_errorcode_t lcsa_start(void)
 
 lcsa_errorcode_t lcsa_add_module(const lcsa_module_config_t *module, lcsa_module_number_t module_nr, void *rx0, void *rx1, void *rx2, void *rx3, void *tx0, void *tx1, void *tx2, void *tx3)
 {
+#ifdef LI_CAN_SLV_DEBUG_S
+	LI_CAN_SLV_DEBUG_PRINT("\nlcsa_add module called\n");
+#endif // #ifdef LI_CAN_SLV_DEBUG_S
 	return can_config_add_module(module, module_nr, rx0, rx1, rx2, rx3, tx0, tx1, tx2, tx3);
 }
 #endif // #ifndef LI_CAN_SLV_BOOT

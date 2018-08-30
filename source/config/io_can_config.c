@@ -859,6 +859,10 @@ li_can_slv_errorcode_t can_config_set_baudrate_listen_only(can_config_bdr_t baud
  */
 li_can_slv_errorcode_t can_config_set_baudrate(can_config_bdr_t baudrate)
 {
+#ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
+			LI_CAN_SLV_DEBUG_PRINT("\ncan_config_set_baudrate called");
+#endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
+
 	uint16_t i;
 
 	for (i = 0; i < CAN_CONFIG_SIZE_OF_BDR_TAB; i++)
@@ -873,6 +877,11 @@ li_can_slv_errorcode_t can_config_set_baudrate(can_config_bdr_t baudrate)
 			return (LI_CAN_SLV_ERR_OK);
 		}
 	}
+
+#ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
+			LI_CAN_SLV_DEBUG_PRINT("\ncan_config_set_baudrate finished");
+#endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
+
 	return (ERR_MSG_CAN_CONFIG_SET_INVALID_BAUDRATE);
 }
 
@@ -883,7 +892,7 @@ li_can_slv_errorcode_t can_config_set_baudrate(can_config_bdr_t baudrate)
 li_can_slv_errorcode_t can_config_set_baudrate_default(void)
 {
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT
-	LI_CAN_SLV_DEBUG_PRINT("\ncan_config_set_baud rate_default");
+	LI_CAN_SLV_DEBUG_PRINT("\ncan_config_set_baud rate_default called");
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT
 	return (can_config_set_baudrate(can_config_bdr_tab[0].baudrate));
 }
@@ -1074,6 +1083,10 @@ li_can_slv_errorcode_t can_config_add_ukwn_module(li_can_slv_module_type_t *modu
 	{
 		li_can_slv_port_string_n_cpy(can_config_ukwn_module.type, module_type, CAN_CONFIG_TYPE_STRING_LENGTH);
 	}
+
+#ifdef LI_CAN_SLV_DEBUG_S
+	LI_CAN_SLV_DEBUG_PRINT("can_config_add_ukwn_module\n");
+#endif // #ifdef LI_CAN_SLV_DEBUG_S
 
 	return can_config_add_module(&can_config_ukwn_module, module_nr, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 }

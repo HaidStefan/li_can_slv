@@ -162,6 +162,10 @@ li_can_slv_errorcode_t can_mon_hw_get_next_free_msg_obj(uint16_t *msg_obj)
 
 li_can_slv_errorcode_t can_mon_hw_enable(void)
 {
+#ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
+	LI_CAN_SLV_DEBUG_PRINT("can_mon_hw_enable called");
+#endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
+
 	li_can_slv_mode_t mode;
 
 	mode = li_can_slv_get_mode();
@@ -173,6 +177,11 @@ li_can_slv_errorcode_t can_mon_hw_enable(void)
 	{
 		CpCoreCanMode(&can_port_mon, CANPIE_MODE_START);
 	}
+
+#ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
+	LI_CAN_SLV_DEBUG_PRINT("can_mon_hw_enable finished");
+#endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
+
 	return (LI_CAN_SLV_ERR_OK);
 }
 

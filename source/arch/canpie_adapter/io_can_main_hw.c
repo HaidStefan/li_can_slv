@@ -179,6 +179,10 @@ li_can_slv_errorcode_t can_main_hw_get_next_free_msg_obj(uint16_t *msg_obj)
 
 li_can_slv_errorcode_t can_main_hw_enable(void)
 {
+#ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
+			LI_CAN_SLV_DEBUG_PRINT("\ncan_main_hw_enable called");
+#endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
+
 	li_can_slv_mode_t mode;
 
 	mode = li_can_slv_get_mode();
@@ -193,6 +197,11 @@ li_can_slv_errorcode_t can_main_hw_enable(void)
 			CpCoreCanMode(&can_port_main, CANPIE_MODE_START);
 		}
 	}
+
+#ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
+			LI_CAN_SLV_DEBUG_PRINT("\ncan_main_hw_enable finished");
+#endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
+
 	return (LI_CAN_SLV_ERR_OK);
 }
 
@@ -303,6 +312,11 @@ li_can_slv_errorcode_t can_main_hw_define_msg_obj(uint16_t msg_obj, uint16_t can
 
 li_can_slv_errorcode_t can_main_hw_set_baudrate(can_config_bdr_tab_t *bdr_tab_entry)
 {
+#ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
+			LI_CAN_SLV_DEBUG_PRINT("\ncan_main_hw_set_baudrate called");
+#endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
+
+
 	CpCoreCanMode(&can_port_main, CANPIE_MODE_STOP);
 
 	switch (bdr_tab_entry->baudrate)
@@ -353,6 +367,10 @@ li_can_slv_errorcode_t can_main_hw_set_baudrate(can_config_bdr_tab_t *bdr_tab_en
 	{
 		CpCoreCanMode(&can_port_main, CANPIE_MODE_LISTEN_ONLY);
 	}
+
+#ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
+			LI_CAN_SLV_DEBUG_PRINT("\ncan_main_hw_set_baudrate finished");
+#endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
 
 	return (LI_CAN_SLV_ERR_OK);
 }

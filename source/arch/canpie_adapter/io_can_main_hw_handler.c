@@ -62,6 +62,8 @@
 #include "cp_core.h"
 #include "cp_msg.h"
 
+#define CP_DEBUG_PRINT(c, ...) printf("\nCPD_C: "); printf((c), ##__VA_ARGS__); //TODO
+
 #ifdef LI_CAN_SLV_DEBUG
 #include "li_can_slv_debug.h"
 #endif // #ifdef LI_CAN_SLV_DEBUG
@@ -114,6 +116,19 @@
  */
 uint8_t can_main_hw_handler_rx(CpCanMsg_ts *ptsCanMsgV, uint8_t ubBufferIdxV)
 {
+
+	CP_DEBUG_PRINT("can_main_hw_handler_rx called");
+	CP_DEBUG_PRINT("ubBufferIdxV: %d", ubBufferIdxV);
+	CP_DEBUG_PRINT("ulIdentifier: %d", ptsCanMsgV->ulIdentifier);
+	CP_DEBUG_PRINT("ubMsgDLC: %d", ptsCanMsgV->ubMsgDLC);
+	CP_DEBUG_PRINT("ubMsgCtrl: %d", ptsCanMsgV->ubMsgCtrl);
+	CP_DEBUG_PRINT("ulMsgUser: %d", ptsCanMsgV->ulMsgUser);
+	CP_DEBUG_PRINT("tuMsgData: ");
+	for(int i = 0; i < 8; i++){ //TODO
+		printf("%d ", ptsCanMsgV->tuMsgData.aubByte[i]);
+	}
+
+
 	uint8_t data[8];
 	/** @todo add workaround for the aligned problem for tricore cpu */
 	/* uint8_t __attribute__ ((aligned(2))) data[8]; */
@@ -142,6 +157,15 @@ uint8_t can_main_hw_handler_rx(CpCanMsg_ts *ptsCanMsgV, uint8_t ubBufferIdxV)
 	CpCoreBufferGetData(&can_port_main, ubBufferIdxV, &(data[0]), 0, dlc);
 #endif // #if CP_VERSION_MAJOR <= 2
 
+	CP_DEBUG_PRINT("\nData in io_can_main_hw_handler: ");
+	CP_DEBUG_PRINT("can_id: %d", canid);
+	CP_DEBUG_PRINT("dlc: %d", dlc);
+	CP_DEBUG_PRINT("Data: ");
+	for(int i = 0; i < 8; i++){
+		printf("%d ", data[i]);
+	}
+
+
 #if CP_VERSION_MAJOR <= 2
 	ubBufferIdxV = ubBufferIdxV - 1;
 #endif // #if CP_VERSION_MAJOR <= 2
@@ -149,6 +173,10 @@ uint8_t can_main_hw_handler_rx(CpCanMsg_ts *ptsCanMsgV, uint8_t ubBufferIdxV)
 #ifdef LI_CAN_SLV_DEBUG_CAN_MAIN_HW_HANDLER
 	LI_CAN_SLV_DEBUG_PRINT("\n\nrx obj: %d id: 0x%x", ubBufferIdxV, canid);
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_MAIN_HW_HANDLER
+
+#ifdef LI_CAN_SLV_DEBUG_S
+	LI_CAN_SLV_DEBUG_PRINT("can_main_hw_handler_rx, buffer:%d", ubBufferIdxV);
+#endif // #ifdef LI_CAN_SLV_DEBUG_S
 
 #if defined (LI_CAN_SLV_SYNC) || defined (LI_CAN_SLV_BOOT)
 	(void) can_sync_handler_rx(ubBufferIdxV, dlc, canid, data);
